@@ -42,7 +42,7 @@ public class ChangelogParser : IChangelogParser
                         FromStatus: item.FromString ?? string.Empty,
                         ToStatus: item.ToString ?? string.Empty,
                         Author: history.Author.Name,
-                        TransitionedAt: timestamp));
+                        TransitionedAt: timestamp.ToUniversalTime()));
                 }
             }
         }

@@ -77,6 +77,14 @@ public class JiraFields
     /// <summary>Time spent in seconds.</summary>
     [JsonPropertyName("timespent")]
     public long? TimeSpent { get; set; }
+
+    /// <summary>Aggregate original estimate in seconds (includes subtasks).</summary>
+    [JsonPropertyName("aggregatetimeoriginalestimate")]
+    public long? AggregateTimeOriginalEstimate { get; set; }
+
+    /// <summary>Aggregate time spent in seconds (includes subtasks).</summary>
+    [JsonPropertyName("aggregatetimespent")]
+    public long? AggregateTimeSpent { get; set; }
 }
 
 public class JiraStatus

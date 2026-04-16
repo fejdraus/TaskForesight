@@ -1,8 +1,12 @@
+-- AGE graph setup
 CREATE EXTENSION IF NOT EXISTS age;
 CREATE EXTENSION IF NOT EXISTS vector;
 LOAD 'age';
 SET search_path = ag_catalog, "$user", public;
 SELECT create_graph('jira_graph');
+
+-- Reset search_path for tables
+SET search_path = public;
 
 CREATE TABLE tasks (
     key TEXT PRIMARY KEY,

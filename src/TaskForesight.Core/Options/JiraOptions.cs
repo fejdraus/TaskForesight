@@ -12,10 +12,10 @@ public class JiraOptions
 
     public Dictionary<string, string[]> StatusMapping { get; set; } = new()
     {
-        ["open"] = ["Open", "New", "To Do", "Backlog", "Reopened", "Plan"],
-        ["in_progress"] = ["In Progress", "In Development", "Coding", "BUG FIX"],
-        ["code_review"] = ["Code Review", "Review", "In Review", "PR Review"],
-        ["testing"] = ["Testing", "QA", "In QA", "Verification", "In Testing"],
-        ["done"] = ["Done", "Closed", "Resolved", "Released", "Delivery", "Ready for Delivery on Prod"]
+        ["open"] = ["Open", "Plan", "To Do", "ToDo"],
+        ["in_progress"] = ["In Progress", "BUG FIX", "Waiting For Response"],
+        ["code_review"] = ["Code Review"],
+        ["testing"] = ["Testing", "Completed"],
+        ["done"] = ["Done", "Closed", "Released", "Delivery", "Ready for Delivery on Prod", "Canceled"]
     };
 }

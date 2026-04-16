@@ -17,7 +17,8 @@ public class JiraClient : IJiraClient
     private const string Fields =
         "summary,description,status,assignee,reporter,issuetype,priority," +
         "issuelinks,components,labels,created,resolutiondate," +
-        "timeoriginalestimate,timespent";
+        "timeoriginalestimate,timespent," +
+        "aggregatetimeoriginalestimate,aggregatetimespent";
 
     private static readonly JsonSerializerOptions JsonOptions = new()
     {

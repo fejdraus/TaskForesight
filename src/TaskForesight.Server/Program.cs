@@ -1,10 +1,13 @@
 using Hangfire;
 using Hangfire.InMemory;
 using MudBlazor.Services;
+using Npgsql;
 using Serilog;
 using TaskForesight.Core.Collector;
 using TaskForesight.Core.Interfaces;
 using TaskForesight.Core.Options;
+using TaskForesight.Core.Processor;
+using TaskForesight.Core.Storage;
 using TaskForesight.Server.Api;
 using TaskForesight.Server.Services;
 using TaskForesight.Shared.Services;
@@ -19,6 +22,7 @@ try
 
     builder.Host.UseSerilog((context, config) => config
         .ReadFrom.Configuration(context.Configuration)
+        .MinimumLevel.Override("System.Net.Http.HttpClient", Serilog.Events.LogEventLevel.Warning)
         .WriteTo.Console());
 
     // Blazor InteractiveAuto
@@ -28,6 +32,12 @@ try
 
     // MudBlazor
     builder.Services.AddMudServices();
+
+    // PostgreSQL (SQL + AGE + pgvector)
+    var dataSourceBuilder = new NpgsqlDataSourceBuilder(
+        builder.Configuration.GetConnectionString("Analytics"));
+    var dataSource = dataSourceBuilder.Build();
+    builder.Services.AddSingleton(dataSource);
 
     // Hangfire
     builder.Services.AddHangfire(config => config
@@ -47,10 +57,12 @@ try
     builder.Services.Configure<LlmProxyOptions>(builder.Configuration.GetSection("LlmProxy"));
     builder.Services.Configure<AnalyticsOptions>(builder.Configuration.GetSection("Analytics"));
 
-    // Jira collector
+    // Core services
     builder.Services.AddJiraCollector();
+    builder.Services.AddStorage();
+    builder.Services.AddProcessor();
 
-    // Data service (stub — will be replaced in Stage 2+)
+    // Data service
     builder.Services.AddScoped<IAnalyticsDataService, ServerAnalyticsDataService>();
 
     var app = builder.Build();
@@ -67,8 +79,19 @@ try
 
     app.MapHangfireDashboard("/hangfire");
 
-    // Test endpoints (temporary)
-    app.MapCollectorTestApi();
+    // API
+    app.MapCollectionApi();
+
+    // Hangfire recurring jobs
+    RecurringJob.AddOrUpdate<IDataProcessor>(
+        "incremental-collect",
+        x => x.RunIncrementalAsync(CancellationToken.None),
+        Cron.Daily(3, 0));
+
+    RecurringJob.AddOrUpdate<ITaskRepository>(
+        "refresh-materialized-views",
+        x => x.RefreshMaterializedViewsAsync(CancellationToken.None),
+        Cron.Daily(4, 0));
 
     app.MapRazorComponents<TaskForesight.Server.App>()
         .AddInteractiveServerRenderMode()
