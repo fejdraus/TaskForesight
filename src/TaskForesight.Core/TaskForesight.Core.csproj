@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Npgsql" Version="10.0.0" />
+    <PackageReference Include="Dapper" Version="2.1.72" />
+    <PackageReference Include="Pgvector" Version="0.3.0" />
+    <PackageReference Include="Konnektr.Npgsql.Age" Version="1.2.1" />
+    <PackageReference Include="Polly.Extensions.Http" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TaskForesight.Shared\TaskForesight.Shared.csproj" />
+  </ItemGroup>
+
+</Project>

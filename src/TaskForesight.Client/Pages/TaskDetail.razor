@@ -1,0 +1,12 @@
+@page "/tasks/{Key}"
+
+<PageTitle>@Key — TaskForesight</PageTitle>
+
+<MudText Typo="Typo.h4">Task: @Key</MudText>
+<MudText Typo="Typo.body1" Class="mt-4" Color="Color.Secondary">
+    Task details, metrics, graph, and transition history will appear here.
+</MudText>
+
+@code {
+    [Parameter] public string Key { get; set; } = string.Empty;
+}

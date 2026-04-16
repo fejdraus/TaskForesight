@@ -1,0 +1,19 @@
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile.postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: jira_analytics
+      POSTGRES_USER: analytics
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: >
+      postgres -c shared_preload_libraries='age,vector'
+
+volumes:
+  pgdata:

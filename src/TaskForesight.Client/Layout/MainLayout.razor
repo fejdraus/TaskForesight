@@ -1,0 +1,51 @@
+@inherits LayoutComponentBase
+
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+<MudPopoverProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit"
+                       Edge="Edge.Start" OnClick="ToggleDrawer" />
+        <MudText Typo="Typo.h6" Class="ml-3">TaskForesight</MudText>
+        <MudSpacer />
+        <MudIconButton Icon="@(_isDarkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)"
+                       Color="Color.Inherit" OnClick="() => _isDarkMode = !_isDarkMode" />
+    </MudAppBar>
+
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2">
+        <MudNavMenu>
+            <MudNavLink Href="/" Match="NavLinkMatch.All"
+                        Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
+            <MudNavLink Href="/estimate"
+                        Icon="@Icons.Material.Filled.Calculate">Estimate</MudNavLink>
+            <MudNavLink Href="/tasks"
+                        Icon="@Icons.Material.Filled.List">Tasks</MudNavLink>
+            <MudNavLink Href="/graph"
+                        Icon="@Icons.Material.Filled.AccountTree">Graph</MudNavLink>
+            <MudNavLink Href="/similar"
+                        Icon="@Icons.Material.Filled.Search">Similar Search</MudNavLink>
+            <MudNavLink Href="/team"
+                        Icon="@Icons.Material.Filled.Group">Team Stats</MudNavLink>
+            <MudNavGroup Title="Admin" Icon="@Icons.Material.Filled.AdminPanelSettings">
+                <MudNavLink Href="/admin/collect"
+                            Icon="@Icons.Material.Filled.CloudDownload">Data Collection</MudNavLink>
+                <MudNavLink Href="/admin/settings"
+                            Icon="@Icons.Material.Filled.Settings">Settings</MudNavLink>
+            </MudNavGroup>
+        </MudNavMenu>
+    </MudDrawer>
+
+    <MudMainContent Class="pa-4">
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool _isDarkMode = true;
+    private bool _drawerOpen = true;
+
+    private void ToggleDrawer() => _drawerOpen = !_drawerOpen;
+}

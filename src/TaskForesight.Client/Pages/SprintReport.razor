@@ -1,0 +1,12 @@
+@page "/sprint/{Name}"
+
+<PageTitle>Sprint: @Name — TaskForesight</PageTitle>
+
+<MudText Typo="Typo.h4">Sprint Report: @Name</MudText>
+<MudText Typo="Typo.body1" Class="mt-4" Color="Color.Secondary">
+    Sprint metrics and breakdown will appear here.
+</MudText>
+
+@code {
+    [Parameter] public string Name { get; set; } = string.Empty;
+}

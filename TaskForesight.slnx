@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/TaskForesight.Client/TaskForesight.Client.csproj" />
+    <Project Path="src/TaskForesight.Core/TaskForesight.Core.csproj" />
+    <Project Path="src/TaskForesight.McpServer/TaskForesight.McpServer.csproj" />
+    <Project Path="src/TaskForesight.Server/TaskForesight.Server.csproj" />
+    <Project Path="src/TaskForesight.Shared/TaskForesight.Shared.csproj" />
+  </Folder>
+</Solution>
