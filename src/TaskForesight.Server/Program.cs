@@ -2,7 +2,10 @@ using Hangfire;
 using Hangfire.InMemory;
 using MudBlazor.Services;
 using Serilog;
+using TaskForesight.Core.Collector;
+using TaskForesight.Core.Interfaces;
 using TaskForesight.Core.Options;
+using TaskForesight.Server.Api;
 using TaskForesight.Server.Services;
 using TaskForesight.Shared.Services;
 
@@ -44,6 +47,9 @@ try
     builder.Services.Configure<LlmProxyOptions>(builder.Configuration.GetSection("LlmProxy"));
     builder.Services.Configure<AnalyticsOptions>(builder.Configuration.GetSection("Analytics"));
 
+    // Jira collector
+    builder.Services.AddJiraCollector();
+
     // Data service (stub — will be replaced in Stage 2+)
     builder.Services.AddScoped<IAnalyticsDataService, ServerAnalyticsDataService>();
 
@@ -60,6 +66,9 @@ try
     app.UseAntiforgery();
 
     app.MapHangfireDashboard("/hangfire");
+
+    // Test endpoints (temporary)
+    app.MapCollectorTestApi();
 
     app.MapRazorComponents<TaskForesight.Server.App>()
         .AddInteractiveServerRenderMode()

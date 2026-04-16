@@ -9,4 +9,13 @@ public class JiraOptions
     public bool IncludeLinked { get; set; } = true;
     public int MaxConcurrentRequests { get; set; } = 4;
     public TimeSpan RequestTimeout { get; set; } = TimeSpan.FromSeconds(15);
+
+    public Dictionary<string, string[]> StatusMapping { get; set; } = new()
+    {
+        ["open"] = ["Open", "New", "To Do", "Backlog", "Reopened", "Plan"],
+        ["in_progress"] = ["In Progress", "In Development", "Coding", "BUG FIX"],
+        ["code_review"] = ["Code Review", "Review", "In Review", "PR Review"],
+        ["testing"] = ["Testing", "QA", "In QA", "Verification", "In Testing"],
+        ["done"] = ["Done", "Closed", "Resolved", "Released", "Delivery", "Ready for Delivery on Prod"]
+    };
 }
