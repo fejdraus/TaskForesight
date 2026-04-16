@@ -83,6 +83,13 @@ public class DataProcessor : IDataProcessor
             return;
         }
 
+        if (issue.Fields.Status?.StatusCategory?.Key != "done")
+        {
+            _logger.LogDebug("Skipping {Key} — not done (statusCategory: {Category})",
+                issue.Key, issue.Fields.Status?.StatusCategory?.Key);
+            return;
+        }
+
         var transitions = _parser.ParseTransitions(issue.Changelog);
         var returns = _parser.DetectReturns(transitions);
         var links = _linkResolver.ResolveLinks(issue);
